@@ -24,7 +24,7 @@ public class UsrArticleController {
 	}
 
 	// 서비스 메서드------------------------------------------------
-	
+
 	// 테스트 데이터 만들기
 	private void makeTestData() {
 		for (int i = 1; i <= 10; i++) {
@@ -34,7 +34,7 @@ public class UsrArticleController {
 			writeArticle(title, body);
 		}
 	}
-	
+
 	// 파라미터로 게시글 작성
 	private Article writeArticle(String title, String body) {
 		int id = lastArticleId + 1;
@@ -45,7 +45,7 @@ public class UsrArticleController {
 
 		return article;
 	}
-	
+
 	// 리스트에서 id로 게시글 찾기
 	private Article getArticleById(int id) {
 		for (Article article : articles) {
@@ -62,7 +62,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody // 응답
 	public Article doAdd(String title, String body) {
-		
+
 		// 파라미터에서 값 받아서 게시글 쓰기
 		Article article = writeArticle(title, body);
 		return article;
@@ -76,12 +76,12 @@ public class UsrArticleController {
 
 		// 리스트 안에서 파라미터 값으로 찾기
 		Article article = getArticleById(id);
-		
+
 		// 만약 없으면 알림
 		if (article == null) {
 			return id + "번 게시글은 없습니다.";
 		}
-		
+
 		// 있다면 삭제
 		articles.remove(article);
 		return id + "번 게시글이 삭제되었습니다";
@@ -94,19 +94,37 @@ public class UsrArticleController {
 
 		// 리스트 안에서 파라미터 값으로 찾기
 		Article article = getArticleById(id);
-		
+
 		// 만약 없으면 알림
 		if (article == null) {
 			return id + "번 게시글은 없습니다.";
 		}
-		
+
 		// 있다면 파라미터에서 값 받아서 수정
 		article.setTitle(title);
 		article.setBody(body);
-		
+
 		return id + "번 게시글이 수정되었습니다<br>" + " 수정된 게시글 : " + article;
 		// 가독성이 별로여서 개행하려고 했는데 \n 이 안먹혔다
 		// 그래서 검색해보니까 <br> 쓰라고 해서 써봤더니 정상 적용
+	}
+
+	// getArticle 주소 요청
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody // 응답
+
+	public Object getArticle(int id) {
+
+		// 리스트 안에서 파라미터 값으로 찾기
+		Article article = getArticleById(id);
+
+		// 만약 없으면 알림
+		if (article == null) {
+			return id + "번 게시글은 없습니다.";
+		}
+
+		// 있다면 보여줌
+		return article;
 	}
 
 	// getArticles 주소 요청
