@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @RestController
 public class UserHomeController {
 	/// http://localhost:8080/usr/home/주소?value=값
@@ -60,5 +64,15 @@ public class UserHomeController {
 
 		return new Article(1, "제목1", "내용1");
 	}
+
+}
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class Article {
+	int id;
+	String title;
+	String body;
 
 }
