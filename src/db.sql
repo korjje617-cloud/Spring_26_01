@@ -13,13 +13,19 @@ CREATE TABLE article (
 
 # 회원 테이블
 CREATE TABLE `member` (
-                          id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                          regDate DATETIME NOT NULL,
-                          updateDate DATETIME NOT NULL,
-                          loginId CHAR(30) NOT NULL,
-                          loginPw CHAR(200) NOT NULL,
-                          `name` CHAR(100) NOT NULL
+                         id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                         regDate DATETIME NOT NULL,
+                         updateDate DATETIME NOT NULL,
+                         loginId CHAR(30) NOT NULL,
+                         loginPw CHAR(100) NOT NULL,
+                         `name` CHAR(20) NOT NULL,
+						 nickname CHAR(20) NOT NULL,
+						 cellphoneNum CHAR(20) NOT NULL,
+						 email CHAR(20) NOT NULL
 );
+
+
+
 
 # 게시글 TD
 INSERT INTO article
@@ -44,19 +50,119 @@ title = '제목3',
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
+loginId = 'admin',
+loginPw = 'admin',
+`name` = '관리자',
+nickname = '관리자_별명',
+cellphoneNum = '01012341234',
+email = 'abc@gmail.com';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
 loginId = 'test1',
 loginPw = 'test1',
-`name` = '회원1';
+`name` = '회원1',
+nickname = '회원1_별명',
+cellphoneNum = '01043214321',
+email = 'abcd@gmail.com';
 
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test2',
 loginPw = 'test2',
-`name` = '회원2';
+`name` = '회원2',
+nickname = '회원2_별명',
+cellphoneNum = '01056785678',
+email = 'abced@gmail.com';
+
+DESC article;
+
+SELECT *
+FROM article ORDER BY id DESC;
+
 
 SELECT *
 FROM `member`;
+
+
+##===============================###################### 테스트
+
+SELECT LAST_INSERT_ID();
+
+INSERT INTO article SET regDate = NOW(), title = '제목1', `body` = '내용1'; , DATA=[, ]
+
+SELECT *
+FROM `member`
+WHERE loginId = 'test3';
+
+SELECT *
+FROM article
+ORDER BY id DESC;
+
+SELECT *
+FROM `member`;
+
+SELECT A.*, M.name AS extra__writer
+FROM article AS A
+         INNER JOIN `member` AS M
+                    ON A.memberId = M.id;
+
+SELECT CEILING(RAND() * 2);
+
+# article 대량생성
+INSERT INTO article
+SET regDate = NOW(),
+memberId = CEILING(RAND() * 2),
+title = CONCAT('제목', RAND()),
+`body` = CONCAT('내용', RAND());
+
+# member 대량생성
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = CONCAT('loginId', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
+loginPw = CONCAT('loginPw', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
+`name` = CONCAT('name', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
+SELECT * FROM `member` WHERE loginId = 'test1';
+
+SELECT 1 + 1;
+SELECT 1 >= 1;
+
+SELECT COUNT(*) > 0
+FROM `member`
+WHERE loginId = 'test1';
+
+SELECT COUNT(*) > 0
+FROM `member`
+WHERE loginId = 'test3';
+
+SELECT NOW();
+
+SELECT '제목1';
+
+SELECT CONCAT('제목','2');
+
+SELECT SUBSTRING(RAND() * 1000 FROM 1 FOR 2);
+
+UPDATE article
+SET updateDate = NOW(),
+    title = '',
+    `body` = 'test1'
+WHERE id = 1;
+
+SELECT COUNT(*)
+FROM article
+WHERE id = 5;
+
+
+UPDATE article
+SET updateDate = NOW(),
+    `body` = 'test3'
+WHERE id = 3;
+
 
 SELECT *
 FROM article;
