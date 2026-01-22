@@ -18,3 +18,6 @@ http://localhost:8080/usr/article/getArticles
 -
 고쳐야할거
 doAdd 하고 보여주는 객체에 아이디, 날짜 데이터가 없음
+
+-
+
