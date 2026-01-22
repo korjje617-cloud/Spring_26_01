@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +26,26 @@ public class ArticleService {
 			String title = "제목 " + i;
 			String body = "내용 " + i;
 
-			writeArticle(title, body);
+			articleRepository.writeArticle(title, body);
 		}
 	}
 
 	// 파라미터로 게시글 작성
 	public Article writeArticle(String title, String body) {
-		return articleRepository.writeArticle(title, body);
+		articleRepository.writeArticle(title, body);
+		return new Article(title,body);
 	}
 
+	// 게시글 찾아서 삭제
+	public void deleteArticle(int id) {
+		articleRepository.deleteArticle(id);
+	}
+
+	// 게시글 찾아서 수정
+	public void modifyArticle(int id, String title, String body) {
+		articleRepository.modifyArticle(id, title, body);
+	}
+	
 	// 리스트에서 id 로 게시글 찾기
 	public Article getArticleById(int id) {
 		return articleRepository.getArticleById(id);
@@ -46,15 +56,4 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 	
-	// 게시글 찾아서 삭제
-	public void deleteArticle(int id) {
-		articleRepository.deleteArticle(id);
-	}
-	
-	// 게시글 찾아서 수정
-	public void modifyArticle(int id, String title, String body) {
-		articleRepository.modifyArticle(id, title, body);
-	}
-
-
 }
