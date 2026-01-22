@@ -17,7 +17,7 @@ public class ArticleService {
 	// 리포지터리 객체 자체를 인수로 받는 생성자
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-		makeTestData();
+		// makeTestData();
 	}
 
 	// 테스트 데이터 만들기
@@ -29,6 +29,7 @@ public class ArticleService {
 			articleRepository.writeArticle(title, body);
 		}
 	}
+
 
 	// 파라미터로 게시글 작성
 	public Article writeArticle(String title, String body) {

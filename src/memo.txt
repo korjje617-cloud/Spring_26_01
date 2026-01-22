@@ -1,20 +1,20 @@
 http://localhost:8080
 +
 /매핑주소1/매핑주소2/매핑주소3?value1=값1&value2=값2
-
 -
+테스트 순서
 
-/usr/article/doModify?id=1&title=~&body=~
-> 1번 글이 수정되었습니다 + 수정된 후 게시글
-> 1번 글은 없습니다
+http://localhost:8080/usr/article/getArticles
 
-for (int i = 1; i <= 10; i++) {
-			int id = lastArticleId + 1;
-			String title = "제목" + i;
-			String body = "내용" + i;
-			
-			Article article = new Article(id, title, body);
-			lastArticleId++;
-			
-			return articles;
-		}
+http://localhost:8080/usr/article/getArticle?id=1
+
+http://localhost:8080/usr/article/doAdd?title=abc&body=abc
+
+http://localhost:8080/usr/article/doDelete?id=10
+
+http://localhost:8080/usr/article/doModify?id=4&title=def&body=def
+
+http://localhost:8080/usr/article/getArticles
+-
+고쳐야할거
+doAdd 하고 보여주는 객체에 아이디, 날짜 데이터가 없음
