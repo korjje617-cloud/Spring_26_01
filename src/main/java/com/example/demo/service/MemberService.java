@@ -13,15 +13,14 @@ public class MemberService {
 
 	@Autowired
 	private MemberRepository memberRepository;
-	
-	// 리포지터리 가져오고
+
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
+
 	}
-	
-	// 회원가입
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
-		
+
+	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+			String email) {
 		Member existsMember = getMemberByLoginId(loginId);
 
 		if (existsMember != null) {
