@@ -20,32 +20,38 @@ public class UsrMemberController {
 	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
 			String email) {
 		
-		// 입력된 값이  null 인지 확인하라고 Ut 에게 요청
+		// 입력된 값이  null 인지 확인하라고 유틸에게 요청
 		if (Ut.isEmptyOrNull(loginId)) {
-			return "loginId 입력해";
+			return "loginId 입력";
 		}
 		if (Ut.isEmptyOrNull(loginPw)) {
-			return "loginPw 입력해";
+			return "loginPw 입력";
 		}
 		if (Ut.isEmptyOrNull(name)) {
-			return "name 입력해";
+			return "name 입력";
 		}
 		if (Ut.isEmptyOrNull(nickname)) {
-			return "nickname 입력해";
+			return "nickname 입력";
 		}
 		if (Ut.isEmptyOrNull(cellphoneNum)) {
-			return "cellphoneNum 입력해";
+			return "cellphoneNum 입력";
 		}
 		if (Ut.isEmptyOrNull(email)) {
-			return "email 입력해";
+			return "email 입력";
 		}
 
 		int id = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
+		// 입력된 값이 중복인지 확인하라고 유틸에게 요청
 		if (id == -1) {
-			return "이미 사용중인 아이디";
+			return Ut.f("이미 사용중인 loginId(%s)", loginId);
 		}
-
+		
+		if (id == -2) {
+			return Ut.f("이미 사용중인 name(%s)과 email(%s)", name, email);
+		}
+		
+		// 이 회원번호를 가진 객체 가져오라고 요청
 		Member member = memberService.getMemberById(id);
 
 		return member;
