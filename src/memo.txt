@@ -2,7 +2,7 @@ http://localhost:8080
 +
 /매핑주소1/매핑주소2/매핑주소3?value1=값1&value2=값2
 -
-테스트 순서
+게시글 테스트 순서
 
 http://localhost:8080/usr/article/getArticles
 
@@ -18,8 +18,11 @@ http://localhost:8080/usr/article/doDelete?id=4
 
 http://localhost:8080/usr/article/getArticles
 -
-고쳐야할거
-doAdd 하고 보여주는 객체에 아이디, 날짜 데이터가 없음
 
--
+회원 테스트 순서
 
+http://localhost:8080/usr/member/doJoin?loginId=test3&loginPw=test3&name=test3&nickname=%ED%9A%8C%EC%9B%903&cellphoneNum=01012341234&email=asdf@gmail.com
+
+http://localhost:8080/usr/member/doLogIn?loginId=test1&loginPw=test1
+
+http://localhost:8080/usr/member/doLogIn?loginId=test00&loginPw=test00

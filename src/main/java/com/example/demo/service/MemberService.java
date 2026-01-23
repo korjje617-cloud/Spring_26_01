@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.MemberRepository;
+import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
+import com.example.demo.vo.ResultData;
 
 @Service
 public class MemberService {
@@ -18,23 +20,24 @@ public class MemberService {
 	}
 	
 	// 회원가입
-	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
-		// 입력받은 아이디가 있는지
 		Member existsMember = getMemberByLoginId(loginId);
+
 		if (existsMember != null) {
-			return -1;
+			return ResultData.from("F-7", Ut.f("이미 사용중인 loginId(%s) 입니다", loginId));
 		}
-		
-		// 입력받은 이름이랑 이메일이 있는지
-		existsMember = memberRepository.getMemberByNameAndEmail(name, email);
+		existsMember = getMemberByNameAndEmail(name, email);
+
 		if (existsMember != null) {
-			return -2;
+			return ResultData.from("F-8", Ut.f("이미 사용중인 name(%s)과 email(%s) 입니다", name, email));
 		}
 
-		// 통과됐다면 가입시키고 방금 가입한 회원 정보 보내기
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		return memberRepository.getLastInsertId();
+
+		int id = memberRepository.getLastInsertId();
+
+		return ResultData.from("S-1", "회원가입 성공", id);
 	}
 
 	private Member getMemberByNameAndEmail(String name, String email) {

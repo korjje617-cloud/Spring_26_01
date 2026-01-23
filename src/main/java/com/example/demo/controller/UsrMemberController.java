@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
+import com.example.demo.vo.ResultData;
 
 @Controller
 public class UsrMemberController {
@@ -17,66 +18,59 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
-			String email) {
+	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
-		// 입력된 값이  null 인지 확인하라고 유틸에게 요청
 		if (Ut.isEmptyOrNull(loginId)) {
-			return "loginId 입력";
+			return ResultData.from("F-1", "loginId 입력");
 		}
 		if (Ut.isEmptyOrNull(loginPw)) {
-			return "loginPw 입력";
+			return ResultData.from("F-2", "loginPw 입력");
 		}
 		if (Ut.isEmptyOrNull(name)) {
-			return "name 입력";
+			return ResultData.from("F-3", "name 입력");
 		}
 		if (Ut.isEmptyOrNull(nickname)) {
-			return "nickname 입력";
+			return ResultData.from("F-4", "nickname 입력");
 		}
 		if (Ut.isEmptyOrNull(cellphoneNum)) {
-			return "cellphoneNum 입력";
+			return ResultData.from("F-5", "cellphoneNum 입력");
 		}
 		if (Ut.isEmptyOrNull(email)) {
-			return "email 입력";
+			return ResultData.from("F-6", "email 입력");
 		}
 
-		int id = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		
-		// 입력된 값이 중복인지 확인하라고 유틸에게 요청
-		if (id == -1) {
-			return Ut.f("이미 사용중인 loginId(%s)", loginId);
-		}
-		
-		if (id == -2) {
-			return Ut.f("이미 사용중인 name(%s)과 email(%s)", name, email);
-		}
-		
-		// 이 회원번호를 가진 객체 가져오라고 요청
-		Member member = memberService.getMemberById(id);
+		ResultData doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 
-		return member;
+		if (doJoinRd.isFail()) {
+			return doJoinRd;
+		}
+
+		Member member = memberService.getMemberById((int) doJoinRd.getData1());
+
+		return ResultData.newData(doJoinRd, member);
 	}
 	
-	@RequestMapping("/usr/member/logIn")
+	@RequestMapping("/usr/member/doLogIn")
 	@ResponseBody
 	public Object doLogin(String loginId, String loginPw) {
 		
 		// 입력된 값이  null 인지 확인하라고 유틸에게 요청
 		if (Ut.isEmptyOrNull(loginId)) {
-			return "loginId 입력";
+			return ResultData.from("F-1", "아이디 작성해");
 		}
 		if (Ut.isEmptyOrNull(loginPw)) {
-			return "loginPw 입력";
+			return ResultData.from("F-2", "비밀번호 작성해");
 		}
 		
 		// 이 아이디를 가진 객체 가져오라고 요청
 		Member member = memberService.getMemberByLoginId(loginId);
+
 		
 		if (member == null) {
-			return "없는 회원입니다";
+			return Ut.f("없는 회원입니다");
 		}
 		
-		return "%d 님 로그인" + loginId;
+		return Ut.f("로그인 성공");
 		
 	}
 
