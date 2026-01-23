@@ -26,3 +26,5 @@ http://localhost:8080/usr/member/doJoin?loginId=test3&loginPw=test3&name=test3&n
 http://localhost:8080/usr/member/doLogIn?loginId=test1&loginPw=test1
 
 http://localhost:8080/usr/member/doLogIn?loginId=test00&loginPw=test00
+
+http://localhost:8080/usr/member/doLogOut?loginId=test1&loginPw=test1
