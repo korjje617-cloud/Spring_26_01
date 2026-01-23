@@ -10,6 +10,7 @@ public class ResultData<DT> {
 	private String msg;
 	@Getter
 	private DT data1;
+	// 데이터에는 
 
 	public static <DT> ResultData<DT> from(String ResultCode, String msg) {
 		return from(ResultCode, msg, null);

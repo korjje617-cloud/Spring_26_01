@@ -10,6 +10,8 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrMemberController {
 
@@ -53,9 +55,24 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogIn")
 	@ResponseBody
-	public Object doLogin(String loginId, String loginPw) {
+	public ResultData<Member> doLogin(HttpSession session, String loginId, String loginPw) {
 		
-		// 입력된 값이  null 인지 확인하라고 유틸에게 요청
+		// 기본 로그아웃 상태
+		boolean isLogined = false;
+		
+		// 로그인된 멤버 아이디가 널값이 아니라면
+		if (session.getAttribute("loginedMemberId") != null) {
+			// 로그인 상태
+			isLogined = true;
+		}
+		
+		// 이미 로그인 된 상태라면
+		if (isLogined) {
+			// 알려준다
+			return ResultData.from("F-A", "로그인 중");
+		}
+		
+		// 입력된 값들이  null 인지 확인하라고 유틸에게 요청
 		if (Ut.isEmptyOrNull(loginId)) {
 			return ResultData.from("F-1", "아이디 작성해");
 		}
@@ -67,12 +84,67 @@ public class UsrMemberController {
 		Member member = memberService.getMemberByLoginId(loginId);
 
 		
+		// 틀렸을 때
 		if (member == null) {
-			return Ut.f("없는 회원입니다");
+			return ResultData.from("F-3", Ut.f("%s 는 없는 아이디", loginId));
 		}
 		
-		return Ut.f("로그인 성공");
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return ResultData.from("F-4", "틀린 비밀번호");
+		}
+		
+		session.setAttribute("loginedMemberId", member.getId());
+		
+		// 위 과정을 다 통과해야 성공
+		return ResultData.from("S-1", Ut.f("%s 님 로그인", member.getNickname()), member);
 		
 	}
+	
+	@RequestMapping("/usr/member/doLogOut")
+	@ResponseBody
+	public ResultData<Member> doLogOut(HttpSession session, String loginId, String loginPw) {
+		
+		// 기본 로그인 상태
+		boolean isLogined = false;
+		
+		// 로그인된 멤버 아이디가 널값이 아니라면
+		if (session.getAttribute("loginedMemberId") != null) {
+			// 로그인 상태
+			isLogined = true;
+		}
+		
+		// 이미 로그인 된 상태라면
+		if (isLogined) {
+			// 알려준다
+			return ResultData.from("F-A", "로그인 중");
+		}
+		
+		// 입력된 값들이  null 인지 확인하라고 유틸에게 요청
+		if (Ut.isEmptyOrNull(loginId)) {
+			return ResultData.from("F-1", "아이디 작성해");
+		}
+		if (Ut.isEmptyOrNull(loginPw)) {
+			return ResultData.from("F-2", "비밀번호 작성해");
+		}
+		
+		// 이 아이디를 가진 객체 가져오라고 요청
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		
+		// 틀렸을 때
+		if (member == null) {
+			return ResultData.from("F-3", Ut.f("%s 는 없는 아이디", loginId));
+		}
+		
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return ResultData.from("F-4", "틀린 비밀번호");
+		}
+		
+		// 위 과정을 다 통과해야 성공
+		return ResultData.from("S-1", Ut.f("%s 님 로그인", member.getNickname()), member);
+		
+	}
+
+}
 
 }
