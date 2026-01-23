@@ -8,11 +8,13 @@ http://localhost:8080/usr/article/getArticles
 
 http://localhost:8080/usr/article/getArticle?id=1
 
-http://localhost:8080/usr/article/doAdd?title=abc&body=abc
+http://localhost:8080/usr/article/doWrite?title=abc&body=abc
+
+http://localhost:8080/usr/article/doModify?id=4&title=def&body=def
 
 http://localhost:8080/usr/article/doDelete?id=10
 
-http://localhost:8080/usr/article/doModify?id=4&title=def&body=def
+http://localhost:8080/usr/article/doDelete?id=4
 
 http://localhost:8080/usr/article/getArticles
 -

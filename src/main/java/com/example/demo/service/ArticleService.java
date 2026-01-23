@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.ArticleRepository;
+import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
@@ -32,9 +34,13 @@ public class ArticleService {
 
 
 	// 파라미터로 게시글 작성
-	public Article writeArticle(String title, String body) {
+	public ResultData writeArticle(String title, String body) {
+
 		articleRepository.writeArticle(title, body);
-		return new Article(title,body);
+		
+		int id = articleRepository.getLastInsertId();
+
+		return ResultData.from("S-1", Ut.f("%d번 게시글 작성", id), id);
 	}
 
 	// 게시글 찾아서 삭제

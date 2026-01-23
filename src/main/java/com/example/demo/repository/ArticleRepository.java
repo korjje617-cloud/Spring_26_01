@@ -3,13 +3,12 @@ package com.example.demo.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	
-	//인터페이스에 추상메서드만 남음
 
 //	@Insert("INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = #{title}, `body` = #{body}")
 	public int writeArticle(String title, String body);
@@ -18,6 +17,11 @@ public interface ArticleRepository {
 	public void deleteArticle(int id);
 
 //	@Update("UPDATE article SET updateDate = NOW(), title = #{title}, `body` = #{body} WHERE id = #{id}")
+//	@Update("""
+//			<script>
+//				
+//			</script>
+//			""")
 	public void modifyArticle(int id, String title, String body);
 
 //	@Select("SELECT * FROM article WHERE id = #{id}")
@@ -25,5 +29,7 @@ public interface ArticleRepository {
 
 //	@Select("SELECT * FROM article ORDER BY id DESC")
 	public List<Article> getArticles();
+
+	public int getLastInsertId();
 
 }

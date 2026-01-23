@@ -56,5 +56,28 @@ public class UsrMemberController {
 
 		return member;
 	}
+	
+	@RequestMapping("/usr/member/logIn")
+	@ResponseBody
+	public Object doLogin(String loginId, String loginPw) {
+		
+		// 입력된 값이  null 인지 확인하라고 유틸에게 요청
+		if (Ut.isEmptyOrNull(loginId)) {
+			return "loginId 입력";
+		}
+		if (Ut.isEmptyOrNull(loginPw)) {
+			return "loginPw 입력";
+		}
+		
+		// 이 아이디를 가진 객체 가져오라고 요청
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if (member == null) {
+			return "없는 회원입니다";
+		}
+		
+		return "%d 님 로그인" + loginId;
+		
+	}
 
 }
