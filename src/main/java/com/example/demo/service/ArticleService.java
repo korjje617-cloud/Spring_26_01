@@ -40,8 +40,9 @@ public class ArticleService {
 		
 		int id = articleRepository.getLastInsertId();
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글 작성", id), id);
+		return ResultData.from("S-1", Ut.f("%d번 게시글 작성", id), "작성된 글 번호", id);
 	}
+
 	
 	public ResultData loginedMemberCanModify(int loginedMemberId, Article article) {
 

@@ -38,7 +38,7 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글입니다", id), article);
+		return ResultData.from("S-1", Ut.f("%d번 게시글입니다.", id), "article 1개", article);
 	}
 
 	@RequestMapping("/usr/article/doModify")
@@ -84,7 +84,8 @@ public class UsrArticleController {
 		// 수정된 게시글을 객체에 저장
 		article = articleService.getArticleById(id);
 
-		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg(), article);
+		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg(),
+				"수정됨", article);
 	}
 	
 
@@ -118,7 +119,7 @@ public class UsrArticleController {
 		// 서비스.삭제 메서드로 찾아온 article 삭제
 		articleService.deleteArticle(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다", id));
+		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다", "삭제됨", id));
 	}
 
 	@RequestMapping("/usr/article/getArticles")
@@ -130,7 +131,7 @@ public class UsrArticleController {
 
 		int countArticles = articles.size();
 
-		return ResultData.from("S-1", Ut.f("%d 개의 게시글", countArticles), articles);
+		return ResultData.from("S-1", Ut.f("%d 개의 게시글", countArticles), "게시글 목록", articles);
 	}
 
 	@RequestMapping("/usr/article/doWrite")
@@ -163,7 +164,7 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticleById(id);
 
-		return ResultData.newData(doWriteRd, article);
+		return ResultData.newData(doWriteRd, "작성됨", article);
 	}
 
 }

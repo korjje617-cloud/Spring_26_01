@@ -50,7 +50,7 @@ public class UsrMemberController {
 
 		Member member = memberService.getMemberById((int) doJoinRd.getData1());
 
-		return ResultData.newData(doJoinRd, member);
+		return ResultData.newData(doJoinRd, "가입됨", member);
 	}
 
 	@RequestMapping("/usr/member/doLogIn")
@@ -95,7 +95,7 @@ public class UsrMemberController {
 		session.setAttribute("loginedMemberId", member.getId());
 
 		// 위 과정을 다 통과해야 성공
-		return ResultData.from("S-1", Ut.f("%s 님 로그인", member.getNickname()), member);
+		return ResultData.from("S-1", Ut.f("%s 님 로그인", member.getNickname()),"로그인 됨" , member);
 
 	}
 
