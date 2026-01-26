@@ -23,20 +23,20 @@ public class ArticleService {
 	}
 
 	// 테스트 데이터 만들기
-	private void makeTestData() {
-		for (int i = 1; i <= 10; i++) {
-			String title = "제목 " + i;
-			String body = "내용 " + i;
-
-			articleRepository.writeArticle(title, body);
-		}
-	}
+//	private void makeTestData() {
+//		for (int i = 1; i <= 10; i++) {
+//			String title = "제목 " + i;
+//			String body = "내용 " + i;
+//
+//			articleRepository.writeArticle(title, body);
+//		}
+//	}
 
 
 	// 파라미터로 게시글 작성
-	public ResultData writeArticle(String title, String body) {
+	public ResultData writeArticle(int loginedMemberId, String title, String body) {
 
-		articleRepository.writeArticle(title, body);
+		articleRepository.writeArticle(loginedMemberId,title, body);
 		
 		int id = articleRepository.getLastInsertId();
 
