@@ -63,6 +63,13 @@ public class UsrArticleController {
 		if (article == null) {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
+		
+		ResultData loginedMemberCanModifyRd = articleService.loginedMemberCanModify(loginedMemberId, article);
+
+		if (loginedMemberCanModifyRd.isFail()) {
+			return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg());
+		}
+
 
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목 작성해");
@@ -77,7 +84,7 @@ public class UsrArticleController {
 		// 수정된 게시글을 객체에 저장
 		article = articleService.getArticleById(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 수정되었습니다", id), article);
+		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg(), article);
 	}
 	
 
@@ -102,6 +109,10 @@ public class UsrArticleController {
 
 		if (article == null) {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
+		}
+		
+		if (article.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-A2", "권한없음");
 		}
 
 		// 서비스.삭제 메서드로 찾아온 article 삭제
