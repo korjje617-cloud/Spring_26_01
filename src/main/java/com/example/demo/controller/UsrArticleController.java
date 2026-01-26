@@ -12,6 +12,8 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.ResultData;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrArticleController {
 
@@ -49,7 +51,7 @@ public class UsrArticleController {
 		if (article == null) {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
-		
+
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목 작성해");
 		}
@@ -83,7 +85,6 @@ public class UsrArticleController {
 		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제되었습니다", id));
 	}
 
-
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public ResultData getArticles() {
@@ -95,12 +96,17 @@ public class UsrArticleController {
 
 		return ResultData.from("S-1", Ut.f("%d 개의 게시글", countArticles), articles);
 	}
-	
-	
+
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData doWrite(String title, String body) {
+	public ResultData doWrite(HttpSession session, String title, String body) {
 
+		// 로그인된 멤버 아이디가 널값이라면
+		if (session.getAttribute("loginedMemberId") == null) {
+			// 글 못씀
+			return ResultData.from("F-A", "로그인을 하세요");
+		}
+		
 		// 입력된 값이 null 인지 확인하라고 유틸에게 요청
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목 작성해");
@@ -108,7 +114,7 @@ public class UsrArticleController {
 		if (Ut.isEmptyOrNull(body)) {
 			return ResultData.from("F-2", "본문 작성해");
 		}
-
+		
 		ResultData writeArticleRd = articleService.writeArticle(title, body);
 
 		int id = (int) writeArticleRd.getData1();

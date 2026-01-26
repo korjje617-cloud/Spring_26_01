@@ -8,7 +8,8 @@ CREATE TABLE article (
                          regDate DATETIME NOT NULL,
                          updateDate DATETIME NOT NULL,
                          title CHAR(100) NOT NULL,
-                         `body` TEXT NOT NULL
+                         `body` TEXT NOT NULL,
+                         `name` TEXT NOT NULL
 );
 
 # 회원 테이블
@@ -35,19 +36,22 @@ INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목1',
-`body` = '내용1';
+`body` = '내용1',
+`name` = '회원1';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목2',
-`body` = '내용2';
+`body` = '내용2',
+`name` = '회원2';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목3',
-`body` = '내용3';
+`body` = '내용3',
+`name` = '관리자';
 
 # 회원 TD
 INSERT INTO `member`
@@ -84,8 +88,7 @@ email = 'abced@gmail.com';
 DESC article;
 
 SELECT *
-FROM article ORDER BY id DESC;
-
+FROM article;
 
 SELECT *
 FROM `member`;

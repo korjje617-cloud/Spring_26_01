@@ -23,4 +23,5 @@ public class Article {
 	private LocalDateTime updateDate;
 	private String title;
 	private String body;
+	private String name;
 }

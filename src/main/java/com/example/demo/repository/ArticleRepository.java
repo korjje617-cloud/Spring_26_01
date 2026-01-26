@@ -10,7 +10,7 @@ import com.example.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-//	@Insert("INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = #{title}, `body` = #{body}")
+//	@Insert("INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = #{title}, `body` = #{body}, `name` = #{name}")
 	public int writeArticle(String title, String body);
 
 //	@Delete("DELETE FROM article WHERE id = #{id}")

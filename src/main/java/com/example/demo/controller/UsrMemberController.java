@@ -105,34 +105,21 @@ public class UsrMemberController {
 		// 기본 로그아웃 상태
 		boolean isLogined = false;
 
-		// 로그인된 멤버 아이디가 널값이라면
-		if (session.getAttribute("loginedMemberId") == null) {
-			// 이미 로그아웃 상태
-			return ResultData.from("F-A", "이미 로그아웃");
+		// 로그인 된 상태라면 로그인 상태로 바꿔주고
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
 		}
 
-		// 이미 로그인 된 상태라면
-		if (isLogined) {
+		// 이미 로그아웃 된 상태라면
+		if (!isLogined) {
 			// 알려준다
 			return ResultData.from("F-A", "이미 로그아웃");
 		}
 
-		// 이 아이디를 가진 객체 가져오라고 요청
-		Member member = memberService.getMemberByLoginId(loginId);
-
-		// 틀렸을 때
-		if (member == null) {
-			return ResultData.from("F-3", Ut.f("%s 는 없는 아이디", loginId));
-		}
-
-		if (member.getLoginPw().equals(loginPw) == false) {
-			return ResultData.from("F-4", "틀린 비밀번호");
-		}
-		
-		session.setAttribute("loginedMemberId", null);
-
 		// 위 과정을 다 통과해야 성공
-		return ResultData.from("S-1", Ut.f("%s 님 로그아웃", member.getNickname()), member);
+		session.removeAttribute("loginedMemberId");
+
+		return ResultData.from("S-1", "로그아웃");
 
 	}
 
